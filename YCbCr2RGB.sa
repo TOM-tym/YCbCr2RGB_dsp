@@ -1,0 +1,59 @@
+    .global _YCbCr2RGB      
+    .global _multiply32  
+    .global _my_rounding
+_YCbCr2RGB .cproc Y, Cb, Cr, pos
+    .reg a, b, c, e, f, h
+    .reg mid
+    .reg tmp1, tmp2, tmp3, tmp4, tmp5
+    .reg Red, Green, Blue
+
+    ;[[a=1.164,b=0,c=1.402],[a=1.164,e=-0.344,f=-0.714],[a=1.164,h=1.772,b=0]]
+    ; !!!!pos = 20
+    MVK 0x00129FBE, a
+    MVKH 0x00129FBE, a ;a = 1.164
+    
+    MVK 0, b
+
+    MVK 0x00166E97, c ; c = 1.402
+    MVKH 0x00166E97, c
+
+    MVK 0xFFFA7EFA, e ; e = -0.344
+    MVKH 0xFFFA7EFA, e
+
+    MVK 0xFFF49375, f ; f = -0.714
+    MVKH 0xFFF49375, f
+    
+    MVK 0X000C5A1C, h ; h = 1.772
+    MVKH 0X000C5A1C, h
+
+    MVK 0x08000000, mid ; mid = 128
+    MVKH 0x08000000, mid
+
+    SHL Y, pos, Y ; self-def datatype
+    SHL Cb, pos, Cb ; self-def datatype
+    SHL Cr, pos, Cr ; self-def datatype
+    SUB Cb, mid, Cb
+    SUB Cr, mid, Cr
+
+    .call tmp1 = _multiply32(Y, a, pos)
+    .call tmp2 = _multiply32(Cr, c, pos)
+    .call tmp3 = _multiply32(Cb, e, pos)
+    .call tmp4 = _multiply32(Cr, f, pos)
+    .call tmp5 = _multiply32(Cb, h, pos)
+
+    ADD tmp1, tmp2, Red
+    ADD tmp1, tmp3, tmp3
+    ADD tmp3, tmp4, Green
+    ADD tmp1, tmp5, Blue
+
+    .call Red = _my_rounding(Red,pos)
+    .call Green = _my_rounding(Green,pos)
+    .call Blue = _my_rounding(Blue,pos)
+
+    SHRU Red, pos, Red
+    SHRU Green, pos, Green
+    SHRU Blue, pos, Blue 
+
+    .return Red ;should return multi-results, consider using pointer
+    .endproc
+
