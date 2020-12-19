@@ -1,0 +1,1 @@
+"./rounding.obj" "./multiply32.obj" "./main.obj" "./YCbCr2RGB.obj" "../DM642.cmd" -l"libc.a" 
