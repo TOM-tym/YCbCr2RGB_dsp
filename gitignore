@@ -1,0 +1,6 @@
+.settings/
+*.swp
+*.~
+.launches/
+Debug/
+
