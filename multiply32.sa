@@ -1,7 +1,7 @@
     .global _multiply32
 _multiply32 .cproc var1, var2, pos
     .reg res1, res2, res3, res4
-    .reg dst1, dst2, dst, tmp, postemp1, postemp2
+    .reg dst1, dst2, dst, tmp, postemp1, postemp2, cnt
 
  	MVK 16, tmp
     SUB tmp, pos, postemp1          ; postemp1 = 16-pos
@@ -14,9 +14,20 @@ _multiply32 .cproc var1, var2, pos
     MPYH var1, var2, res4
 
 
-    SHR res1, pos, res1
+    SHRU res1, pos, res1
+    CMPGT postemp1, 0, cnt
+[cnt] B SHIFT_LEFT
+[!cnt]B SHIFT_RIGHT
+SHIFT_LEFT:
     SHL res2, postemp1, res2
     SHL res3, postemp1, res3
+    B next
+SHIFT_RIGHT:
+    NOT postemp1, postemp1
+    ADD postemp1, 1, postemp1
+    SHR res2, postemp1, res2
+    SHR res3, postemp1, res3
+next:
     SHL res4, postemp2, res4
     ADD res1, res2, dst1
     ADD res3, res4, dst2
