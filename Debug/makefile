@@ -112,19 +112,19 @@ endif
 # Add inputs and outputs from these tool invocations to the build variables 
 
 # All Target
-all: YCbCr2RGB_dsp.out
+all: hw3_YCbCr2RGB.out
 
 # Tool invocations
-YCbCr2RGB_dsp.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+hw3_YCbCr2RGB.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: C6000 Linker'
-	"F:/software/ccs/ccsv5/tools/compiler/c6000_7.4.4/bin/cl6x" -mv6400 --abi=coffabi -g --define=dm642 --display_error_number --diag_warning=225 --diag_wrap=off -z --stack_size=0x800 -m"YCbCr2RGB_dsp.map" --heap_size=0x800 -i"F:/software/ccs/ccsv5/tools/compiler/c6000_7.4.4/lib" -i"F:/software/ccs/ccsv5/tools/compiler/c6000_7.4.4/include" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="YCbCr2RGB_dsp_linkInfo.xml" --rom_model -o "YCbCr2RGB_dsp.out" $(ORDERED_OBJS)
+	"F:/software/ccs/ccsv5/tools/compiler/c6000_7.4.4/bin/cl6x" -mv6400 --abi=coffabi -g --define=dm642 --display_error_number --diag_warning=225 --diag_wrap=off -z --stack_size=0x800 -m"hw3_YCbCr2RGB.map" --heap_size=0x800 -i"F:/software/ccs/ccsv5/tools/compiler/c6000_7.4.4/lib" -i"F:/software/ccs/ccsv5/tools/compiler/c6000_7.4.4/include" --reread_libs --warn_sections --display_error_number --diag_wrap=off --xml_link_info="hw3_YCbCr2RGB_linkInfo.xml" --rom_model -o "hw3_YCbCr2RGB.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) $(C6000_EXECUTABLE_OUTPUTS__QUOTED) "YCbCr2RGB_dsp.out"
+	-$(RM) $(C6000_EXECUTABLE_OUTPUTS__QUOTED) "hw3_YCbCr2RGB.out"
 	-$(RM) "main.pp" 
 	-$(RM) "YCbCr2RGB.obj" "main.obj" "multiply32.obj" "rounding.obj" 
 	-$(RM) "YCbCr2RGB.pp" "multiply32.pp" "rounding.pp" 
