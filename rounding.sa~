@@ -9,9 +9,9 @@ _my_rounding .cproc var, pos
 	ADD var, tmp, var
 
 	;floor operation
-    MVK 0xFFFFFFFF, cst    
+    MVK 0xFFFFFFFF, cst    ;cst=0xFFFFFFFF
     MVKH 0xFFFFFFFF, cst
-    SHL cst, pos, cst   ;cst=0xFFFF0000
+    SHL cst, pos, cst
 	AND var, cst, var
     .return var
     .endproc
